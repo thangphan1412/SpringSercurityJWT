@@ -14,19 +14,23 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "_user")
 public class Users implements UserDetails {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
-    private String usernames;
-    private String passwords;
+    @GeneratedValue
+    private Integer id;
+    private String firstname;
+    private String lastname;
     private String email;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Roles role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,7 +39,7 @@ public class Users implements UserDetails {
 
     @Override
     public String getPassword() {
-        return passwords;
+        return password;
     }
 
     @Override
@@ -45,21 +49,21 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }
