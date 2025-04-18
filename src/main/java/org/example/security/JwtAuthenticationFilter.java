@@ -5,13 +5,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,12 +21,16 @@ import java.io.IOException;
 // để Spring Boot tự động phát hiện và quản lý Bean này
 @Component
 //tự tạo constructor cho các field final (nếu có).
-@RequiredArgsConstructor
+
+@AllArgsConstructor
 //OncePerRequestFilter: class cha đảm bảo filter này chỉ được gọi một lần duy nhất mỗi request.
-public class JwtAuthenticationFIlter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private UserDetailsService userDetailsService;
+    public JwtAuthenticationFilter() {
+        this.jwtService = new JwtService();
+    }
 
     @Override
   //phương thức sẽ được gọi tự động trong chuỗi xử lý request của Spring Security.
